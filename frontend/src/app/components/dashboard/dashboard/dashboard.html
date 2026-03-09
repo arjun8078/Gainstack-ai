@@ -1,0 +1,53 @@
+<div class="dashboard-container">
+  <mat-card class="dashboard-card">
+    <mat-card-header>
+      <mat-card-title>{{ greeting() }}</mat-card-title>
+      <mat-card-subtitle>GainStack AI Dashboard</mat-card-subtitle>
+    </mat-card-header>
+
+    <mat-card-content>
+
+      @if (isLoading()) {
+        <div class="loading">
+          <mat-spinner diameter="40"></mat-spinner>
+          <p>Loading user data...</p>
+        </div>
+      } @else if (currentUser()) {
+        <div class="user-info">
+          <div class="info-row">
+            <mat-icon>person</mat-icon>
+            <span>{{ currentUser()?.name }}</span>
+          </div>
+          <div class="info-row">
+            <mat-icon>email</mat-icon>
+            <span>{{ currentUser()?.email }}</span>
+          </div>
+          @if (currentUser()?.createdAt) {
+            <div class="info-row">
+              <mat-icon>calendar_today</mat-icon>
+              <span>Member since {{ currentUser()?.createdAt | date:'MMM d, y' }}</span>
+            </div>
+          }
+        </div>
+
+        <div class="status">
+          <p>✅ Authentication Active</p>
+          <p>🔐 JWT Token Valid</p>
+          <p>🚀 Ready for GainStack AI features!</p>
+        </div>
+
+        <div class="actions">
+          <button
+            mat-raised-button
+            color="warn"
+            (click)="logout()"
+          >
+            <mat-icon>logout</mat-icon>
+            Logout
+          </button>
+        </div>
+      }
+
+    </mat-card-content>
+  </mat-card>
+</div>

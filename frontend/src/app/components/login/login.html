@@ -1,0 +1,87 @@
+<div class="login-container">
+  <mat-card class="login-card">
+    <!-- Header -->
+    <mat-card-header>
+      <mat-card-title>Welcome Back</mat-card-title>
+      <mat-card-subtitle>Sign in to continue to TaskFlow</mat-card-subtitle>
+    </mat-card-header>
+
+    <mat-card-content>
+      <!-- Error Message - Using Signal with () -->
+      @if (errorMessage()) {
+        <div class="error-message">
+          <mat-icon>error</mat-icon>
+          <span>{{ errorMessage() }}</span>
+        </div>
+      }
+
+      <!-- Login Form -->
+      <form (ngSubmit)="onLogin()" class="login-form">
+
+        <!-- Email Input - Using Signal with ngModel -->
+        <mat-form-field appearance="outline" class="full-width">
+          <mat-label>Email</mat-label>
+          <input
+            matInput
+            type="email"
+            placeholder="your@email.com"
+            [ngModel]="email()"
+            (ngModelChange)="email.set($event)"
+            name="email"
+            [disabled]="isLoading()"
+            required
+          >
+          <mat-icon matPrefix>email</mat-icon>
+        </mat-form-field>
+
+        <!-- Password Input - Using Signal with ngModel -->
+        <mat-form-field appearance="outline" class="full-width">
+          <mat-label>Password</mat-label>
+          <input
+            matInput
+            [type]="showPassword() ? 'text' : 'password'"
+            placeholder="Enter your password"
+            [ngModel]="password()"
+            (ngModelChange)="password.set($event)"
+            name="password"
+            [disabled]="isLoading()"
+            required
+          >
+          <mat-icon matPrefix>lock</mat-icon>
+          <button
+            mat-icon-button
+            matSuffix
+            type="button"
+            (click)="togglePasswordVisibility()"
+            [disabled]="isLoading()"
+          >
+            <mat-icon>{{ showPassword() ? 'visibility_off' : 'visibility' }}</mat-icon>
+          </button>
+        </mat-form-field>
+
+        <!-- Login Button - Using Signal in @if -->
+        <button
+          mat-raised-button
+          color="primary"
+          type="submit"
+          class="full-width login-button"
+          [disabled]="isLoading() || !email() || !password()"
+        >
+          @if (!isLoading()) {
+            <span>Sign In</span>
+          }
+          @if (isLoading()) {
+            <mat-spinner diameter="20"></mat-spinner>
+          }
+        </button>
+
+      </form>
+
+      <!-- Register Link -->
+      <div class="register-link">
+        <p>Don't have an account? <a routerLink="/register">Sign up</a></p>
+      </div>
+
+    </mat-card-content>
+  </mat-card>
+</div>
