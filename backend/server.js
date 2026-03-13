@@ -28,7 +28,9 @@ app.get('/api', (req, res) => {
   });
 });
 
+
 app.use('/api/auth',require('./src/routes/auth'));
+app.use('/api/workouts',require('./src/routes/workoutRoutes'))
 
 
 app.listen(5000,()=>{
