@@ -34,7 +34,7 @@ const setSchema = new mongoose.Schema({
 const exerciseSchema = new mongoose.Schema({
   exerciseId: {
     type: String,
-    required: [true, 'Exercise ID is required'],
+    required:false,
     trim: true
   },
   name: {
@@ -118,7 +118,8 @@ workoutSchema.virtual('summary').get(function() {
 });
 
 // Pre-save hook: Automatically calculate total volume before saving
-workoutSchema.pre('save', function(next) {
+// CORRECT:
+workoutSchema.pre('save', async function() {  // ← Remove 'next' parameter, add 'async'
   let totalVolume = 0;
   
   this.exercises.forEach(exercise => {
@@ -128,7 +129,7 @@ workoutSchema.pre('save', function(next) {
   });
   
   this.totalVolume = totalVolume;
-  next();
+  // No next() needed with async!
 });
 
 // Instance method: Get detailed workout statistics
