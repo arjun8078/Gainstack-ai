@@ -1,0 +1,181 @@
+.dashboard-container {
+  min-height: 100vh;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  padding: 20px;
+}
+
+.dashboard-card {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 24px;
+}
+
+.dashboard-header {
+  text-align: center;
+  margin-bottom: 32px;
+
+  h1 {
+    font-size: 32px;
+    font-weight: 600;
+    margin: 0;
+  }
+}
+
+// Loading
+.loading {
+  text-align: center;
+  padding: 40px;
+
+  p {
+    margin-top: 16px;
+    color: #666;
+  }
+}
+
+// Sections
+section {
+  margin-bottom: 40px;
+}
+
+.section-title {
+  font-size: 20px;
+  font-weight: 600;
+  margin-bottom: 16px;
+  color: #333;
+}
+
+// Stats Grid
+.stats-section {
+  .stats-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 16px;
+  }
+
+  .stat-card {
+    text-align: center;
+    padding: 24px;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+
+    .stat-value {
+      font-size: 48px;
+      font-weight: 700;
+      margin-bottom: 8px;
+    }
+
+    .stat-label {
+      font-size: 18px;
+      font-weight: 500;
+      margin-bottom: 4px;
+    }
+
+    .stat-period {
+      font-size: 14px;
+      opacity: 0.9;
+    }
+  }
+}
+
+// Quick Actions
+.actions-section {
+  .action-buttons {
+    display: flex;
+    gap: 16px;
+    flex-wrap: wrap;
+
+    .action-btn {
+      flex: 1;
+      min-width: 200px;
+      height: 56px;
+      font-size: 16px;
+
+      mat-icon {
+        margin-right: 8px;
+      }
+    }
+  }
+}
+
+// Recent Activity
+.recent-section {
+  .empty-state {
+    text-align: center;
+    padding: 48px;
+    background: #f5f5f5;
+    border-radius: 8px;
+
+    .empty-icon {
+      font-size: 64px;
+      width: 64px;
+      height: 64px;
+      color: #999;
+      margin-bottom: 16px;
+    }
+
+    p {
+      font-size: 18px;
+      color: #666;
+      margin-bottom: 24px;
+    }
+  }
+}
+
+// Motivational Quote
+.motivation-section {
+  .quote-card {
+    background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+    color: white;
+    padding: 32px;
+    position: relative;
+    text-align: center;
+
+    .quote-icon {
+      font-size: 48px;
+      width: 48px;
+      height: 48px;
+      opacity: 0.3;
+      position: absolute;
+      top: 16px;
+      left: 16px;
+    }
+
+    .quote-text {
+      font-size: 24px;
+      font-style: italic;
+      font-weight: 500;
+      margin: 0;
+    }
+  }
+}
+
+// Logout
+.logout-section {
+  text-align: center;
+  margin-top: 32px;
+
+  button {
+    mat-icon {
+      margin-right: 8px;
+    }
+  }
+}
+
+// Responsive
+@media (max-width: 768px) {
+  .stats-grid {
+    grid-template-columns: 1fr !important;
+  }
+
+  .action-buttons {
+    flex-direction: column;
+
+    .action-btn {
+      width: 100%;
+    }
+  }
+
+  .dashboard-header h1 {
+    font-size: 24px;
+  }
+}

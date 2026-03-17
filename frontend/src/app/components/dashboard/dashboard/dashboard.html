@@ -1,44 +1,106 @@
 <div class="dashboard-container">
   <mat-card class="dashboard-card">
-    <mat-card-header>
-      <mat-card-title>{{ greeting() }}</mat-card-title>
+
+    <!-- Header -->
+    <mat-card-header class="dashboard-header">
+      <mat-card-title>
+        <h1>{{ greeting() }} 💪</h1>
+      </mat-card-title>
       <mat-card-subtitle>GainStack AI Dashboard</mat-card-subtitle>
     </mat-card-header>
 
     <mat-card-content>
 
       @if (isLoading()) {
+        <!-- Loading State -->
         <div class="loading">
           <mat-spinner diameter="40"></mat-spinner>
-          <p>Loading user data...</p>
+          <p>Loading your data...</p>
         </div>
       } @else if (currentUser()) {
-        <div class="user-info">
-          <div class="info-row">
-            <mat-icon>person</mat-icon>
-            <span>{{ currentUser()?.name }}</span>
-          </div>
-          <div class="info-row">
-            <mat-icon>email</mat-icon>
-            <span>{{ currentUser()?.email }}</span>
-          </div>
-          @if (currentUser()?.createdAt) {
-            <div class="info-row">
-              <mat-icon>calendar_today</mat-icon>
-              <span>Member since {{ currentUser()?.createdAt | date:'MMM d, y' }}</span>
-            </div>
-          }
-        </div>
 
-        <div class="status">
-          <p>✅ Authentication Active</p>
-          <p>🔐 JWT Token Valid</p>
-          <p>🚀 Ready for GainStack AI features!</p>
-        </div>
+        <!-- Stats Cards Section -->
+        <section class="stats-section">
+          <h2 class="section-title">📊 Your Stats</h2>
+          <div class="stats-grid">
 
-        <div class="actions">
+            <!-- Workouts Card -->
+            <mat-card class="stat-card">
+              <div class="stat-value">{{ stats.workoutsThisWeek }}</div>
+              <div class="stat-label">Workouts</div>
+              <div class="stat-period">This Week</div>
+            </mat-card>
+
+            <!-- Exercises Card -->
+            <mat-card class="stat-card">
+              <div class="stat-value">{{ stats.exercisesLogged }}</div>
+              <div class="stat-label">Exercises</div>
+              <div class="stat-period">Logged</div>
+            </mat-card>
+
+            <!-- Volume Card -->
+            <mat-card class="stat-card">
+              <div class="stat-value">{{ stats.volumeThisWeek }} kg</div>
+              <div class="stat-label">Volume</div>
+              <div class="stat-period">This Week</div>
+            </mat-card>
+
+          </div>
+        </section>
+
+        <!-- Quick Actions Section -->
+        <section class="actions-section">
+          <h2 class="section-title">🎯 Quick Actions</h2>
+          <div class="action-buttons">
+            <button
+              mat-raised-button
+              color="primary"
+              (click)="addWorkout()"
+              class="action-btn"
+            >
+              <mat-icon>add</mat-icon>
+              Add Workout
+            </button>
+
+            <button
+              mat-raised-button
+              (click)="viewAllWorkouts()"
+              class="action-btn"
+            >
+              <mat-icon>list</mat-icon>
+              View All Workouts
+            </button>
+          </div>
+        </section>
+
+        <!-- Recent Activity Section -->
+        <section class="recent-section">
+          <h2 class="section-title">📋 Recent Activity</h2>
+          <div class="empty-state">
+            <mat-icon class="empty-icon">fitness_center</mat-icon>
+            <p>No workouts yet. Start your journey!</p>
+            <button
+              mat-stroked-button
+              color="primary"
+              (click)="addWorkout()"
+            >
+              Get Started
+            </button>
+          </div>
+        </section>
+
+        <!-- Motivational Quote Section -->
+        <section class="motivation-section">
+          <mat-card class="quote-card">
+            <mat-icon class="quote-icon">format_quote</mat-icon>
+            <p class="quote-text">{{ motivationalQuote }}</p>
+          </mat-card>
+        </section>
+
+        <!-- Logout Button -->
+        <div class="logout-section">
           <button
-            mat-raised-button
+            mat-stroked-button
             color="warn"
             (click)="logout()"
           >
@@ -46,6 +108,7 @@
             Logout
           </button>
         </div>
+
       }
 
     </mat-card-content>

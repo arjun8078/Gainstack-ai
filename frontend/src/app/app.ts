@@ -14,6 +14,7 @@ export class App {
 
 
   constructor(private authService:AuthService){
+     this.authService.loadUserFromToken();
 
   }
 

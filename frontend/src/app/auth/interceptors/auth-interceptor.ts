@@ -27,17 +27,11 @@ export const authInterceptor: HttpInterceptorFn = (req, next) => {
     }
   })
 
+  console.log('🔐 Authenticated request:', req.url);
 
-   return next(clonedRequest).pipe(
-    tap({
-      error: (error) => {
-        if (error.status === 401) {
-          console.log('❌ 401 Unauthorized - Token expired or invalid');
-          authservice.logout();  // Auto logout
-        }
-      }
-    })
-  );
+  // Just pass through - don't handle 401 errors here!
+  // Let individual services decide what to do with errors
+  return next(clonedRequest);
 
 
 

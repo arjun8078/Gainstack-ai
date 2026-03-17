@@ -14,6 +14,14 @@ export class Dashboard {
 currentUser!: any;  // Declare but don't assign
   isLoading!: any;
   greeting!: any;
+   // Static stats (will be replaced with real data later)
+  stats = {
+    workoutsThisWeek: 0,
+    exercisesLogged: 0,
+    volumeThisWeek: 0
+  };
+
+  motivationalQuote = "Your only limit is you!";
 
 
   constructor(public authService:AuthService){
@@ -28,12 +36,22 @@ currentUser!: any;  // Declare but don't assign
   });
   }
 
+    // Placeholder methods (not functional yet)
+  addWorkout() {
+    console.log('Add workout clicked - coming soon!');
+    // TODO: Navigate to add workout page
+  }
 
 
   logout() {
     console.log('🚪 Logout clicked');
     this.authService.logout();
     // AuthService.logout() already navigates to /login!
+  }
+
+   viewAllWorkouts() {
+    console.log('View all workouts clicked - coming soon!');
+    // TODO: Navigate to workouts list page
   }
 
 }

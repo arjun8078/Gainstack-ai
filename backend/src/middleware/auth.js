@@ -19,7 +19,7 @@ exports.protect=async(req,res,next)=>{
       });
     }
 
-    const decoded=jwt.verify(token.process.env.JWT_SECRET);
+    const decoded=jwt.verify(token,process.env.JWT_SECRET);
 
     // Step 4: Get user from database using ID from token
     const user = await User.findById(decoded.id);
