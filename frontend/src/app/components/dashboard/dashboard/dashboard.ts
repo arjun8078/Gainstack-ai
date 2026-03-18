@@ -2,6 +2,7 @@ import { Component, computed, OnInit } from '@angular/core';
 import { AuthService } from '../../../auth/services/auth';
 import { SHARED_IMPORTS } from '../../../shared/material-impors';
 import { Workouts } from '../../../auth/services/workouts';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-dashboard',
@@ -25,7 +26,7 @@ currentUser!: any;  // Declare but don't assign
   motivationalQuote = "Your only limit is you!";
 
 
-  constructor(public authService:AuthService,private workoutService: Workouts) {
+  constructor(public authService:AuthService,private workoutService: Workouts,private router: Router) {
         // Get user from AuthService signal
   this.currentUser = this.authService.currentUser;
   this.isLoading = this.authService.isLoading;
@@ -77,11 +78,10 @@ currentUser!: any;  // Declare but don't assign
     });
   }
 
-    // Placeholder methods (not functional yet)
-  addWorkout() {
-    console.log('Add workout clicked - coming soon!');
-    // TODO: Navigate to add workout page
-  }
+  // In dashboard.component.ts:
+addWorkout() {
+  this.router.navigate(['/add-workout']);
+}
 
 
   logout() {

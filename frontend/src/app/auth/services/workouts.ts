@@ -109,4 +109,8 @@ export class Workouts {
     return this.http.get<WorkoutsListResponse>(url);
   }
 
+  createWorkout(workout: any): Observable<WorkoutResponse> {
+  return this.http.post<WorkoutResponse>(this.API_URL, workout);
+}
+
 }

@@ -1,0 +1,108 @@
+<div class="add-workout-container">
+  <mat-card>
+    <mat-card-header>
+      <mat-card-title>Add New Workout 💪</mat-card-title>
+    </mat-card-header>
+
+    <mat-card-content>
+      <!-- SYNTAX: Bind form to template -->
+      <form [formGroup]="workoutForm" (ngSubmit)="onSubmit()">
+
+        <!-- Basic Fields -->
+        <div class="row">
+          <mat-form-field appearance="outline">
+            <mat-label>Date</mat-label>
+            <!-- SYNTAX: formControlName binds to field -->
+            <input matInput type="date" formControlName="date">
+          </mat-form-field>
+
+          <mat-form-field appearance="outline">
+            <mat-label>Duration (seconds)</mat-label>
+            <input matInput type="number" formControlName="totalDuration">
+          </mat-form-field>
+        </div>
+
+        <mat-form-field appearance="outline" class="full-width">
+          <mat-label>Notes</mat-label>
+          <textarea matInput formControlName="notes" rows="2"></textarea>
+        </mat-form-field>
+
+        <!-- SYNTAX: formArrayName binds to FormArray -->
+        <div formArrayName="exercises">
+          <!-- SYNTAX: Loop through FormArray controls -->
+          @for (exercise of exercises.controls; track $index) {
+            <!-- SYNTAX: formGroupName binds to specific item in array -->
+            <mat-card class="exercise-card" [formGroupName]="$index">
+              <div class="exercise-header">
+                <h3>Exercise {{ $index + 1 }}</h3>
+                <button mat-icon-button type="button" (click)="removeExercise($index)">
+                  <mat-icon>delete</mat-icon>
+                </button>
+              </div>
+
+              <div class="row">
+                <mat-form-field appearance="outline">
+                  <mat-label>Name</mat-label>
+                  <input matInput formControlName="name" placeholder="Bench Press">
+                </mat-form-field>
+<mat-form-field appearance="outline">
+  <mat-label>Category</mat-label>
+  <mat-select formControlName="category">
+    <mat-option value="Chest">Chest</mat-option>
+    <mat-option value="Back">Back</mat-option>
+    <mat-option value="Legs">Legs</mat-option>
+    <mat-option value="Shoulders">Shoulders</mat-option>
+    <mat-option value="Arms">Arms</mat-option>
+    <mat-option value="Core">Core</mat-option>
+    <mat-option value="Cardio">Cardio</mat-option>
+    <mat-option value="Other">Other</mat-option>
+  </mat-select>
+</mat-form-field>
+              </div>
+
+              <!-- SYNTAX: Nested FormArray -->
+              <div formArrayName="sets">
+                <h4>Sets:</h4>
+                @for (set of getSets($index).controls; track $index) {
+                  <div class="set-row" [formGroupName]="$index">
+                    <span>Set {{ $index + 1 }}:</span>
+
+                    <mat-form-field appearance="outline">
+                      <mat-label>Reps</mat-label>
+                      <input matInput type="number" formControlName="reps">
+                    </mat-form-field>
+
+                    <mat-form-field appearance="outline">
+                      <mat-label>Weight (kg)</mat-label>
+                      <input matInput type="number" formControlName="weight">
+                    </mat-form-field>
+
+                    <button mat-icon-button type="button" (click)="removeSet($index, $index)">
+                      <mat-icon>close</mat-icon>
+                    </button>
+                  </div>
+                }
+              </div>
+
+              <button mat-button type="button" (click)="addSet($index)">
+                <mat-icon>add</mat-icon> Add Set
+              </button>
+            </mat-card>
+          }
+        </div>
+
+        <button mat-raised-button type="button" (click)="addExercise()" class="add-btn">
+          <mat-icon>add</mat-icon> Add Exercise
+        </button>
+
+        <!-- Actions -->
+        <div class="actions">
+          <button mat-raised-button color="primary" type="submit" [disabled]="isLoading()">
+            Save Workout
+          </button>
+          <button mat-button type="button" (click)="cancel()">Cancel</button>
+        </div>
+      </form>
+    </mat-card-content>
+  </mat-card>
+</div>
