@@ -1,0 +1,36 @@
+ <mat-toolbar color="primary">
+      <span class="logo" (click)="navigate('/dashboard')">💪 GainStack AI</span>
+
+      <span class="spacer"></span>
+
+      <button mat-button (click)="navigate('/dashboard')">
+        <mat-icon>dashboard</mat-icon>
+        Dashboard
+      </button>
+
+      <button mat-button (click)="navigate('/workouts')">
+        <mat-icon>fitness_center</mat-icon>
+        Workouts
+      </button>
+
+      <button mat-button (click)="navigate('/add-workout')">
+        <mat-icon>add</mat-icon>
+        Add Workout
+      </button>
+
+      <button mat-icon-button [matMenuTriggerFor]="menu">
+        <mat-icon>account_circle</mat-icon>
+      </button>
+
+      <mat-menu #menu="matMenu">
+        <div class="user-info">
+          <p>{{ authService.currentUser()?.name }}</p>
+          <small>{{ authService.currentUser()?.email }}</small>
+        </div>
+        <mat-divider></mat-divider>
+        <button mat-menu-item (click)="logout()">
+          <mat-icon>logout</mat-icon>
+          Logout
+        </button>
+      </mat-menu>
+    </mat-toolbar>

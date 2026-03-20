@@ -5,6 +5,7 @@ import { authGuard } from './guards/auth/guards/auth-guard';
 import { Register } from './components/login/register/register/register';
 import { Dashboard } from './components/dashboard/dashboard/dashboard';
 import { AddWorkout } from './components/pages/add-workout/add-workout';
+import { WorkoutList } from './components/pages/workout-list/workout-list';
 
 export const routes: Routes = [
    // Redirect root to login
@@ -26,5 +27,9 @@ export const routes: Routes = [
     component: Dashboard,
     canActivate: [authGuard]   // ← Only for logged in users
   },
-  { path: 'add-workout', component: AddWorkout, canActivate: [authGuard] }
+  { path: 'add-workout',
+    component: AddWorkout,
+     canActivate: [authGuard]
+  },
+  { path: 'workouts', component: WorkoutList, canActivate: [authGuard] },
 ];

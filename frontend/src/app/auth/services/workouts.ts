@@ -113,4 +113,9 @@ export class Workouts {
   return this.http.post<WorkoutResponse>(this.API_URL, workout);
 }
 
+deleteWorkout(id: string): Observable<{ status: string; message: string }> {
+  console.log('📡 Deleting workout:', id);
+  return this.http.delete<{ status: string; message: string }>(`${this.API_URL}/${id}`);
+}
+
 }

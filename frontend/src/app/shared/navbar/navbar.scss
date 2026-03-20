@@ -1,0 +1,18 @@
+.logo {
+      cursor: pointer;
+      font-size: 20px;
+      font-weight: 600;
+    }
+    .spacer {
+      flex: 1;
+    }
+    .user-info {
+      padding: 8px 16px;
+      p {
+        margin: 0;
+        font-weight: 500;
+      }
+      small {
+        color: #666;
+      }
+    }

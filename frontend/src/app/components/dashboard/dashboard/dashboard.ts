@@ -3,11 +3,12 @@ import { AuthService } from '../../../auth/services/auth';
 import { SHARED_IMPORTS } from '../../../shared/material-impors';
 import { Workouts } from '../../../auth/services/workouts';
 import { Router } from '@angular/router';
+import { Navbar } from '../../../shared/navbar/navbar';
 
 @Component({
   selector: 'app-dashboard',
   standalone: true,
-  imports: [SHARED_IMPORTS],
+  imports: [SHARED_IMPORTS,Navbar],
   templateUrl: './dashboard.html',
   styleUrl: './dashboard.scss',
 })
@@ -44,7 +45,7 @@ currentUser!: any;  // Declare but don't assign
 
   loadWorkoutStats() {
     console.log('📊 Loading workout stats...');
-
+    this.isLoading.set(true);
     const today = new Date();
     const weekAgo = new Date(today.getTime() - 7 * 24 * 60 * 60 * 1000);
 
@@ -69,6 +70,7 @@ currentUser!: any;  // Declare but don't assign
 
         this.stats.exercisesLogged = totalExercises;
         this.stats.volumeThisWeek = totalVolume;
+        this.isLoading.set(false);
 
         console.log('📊 Stats calculated:', this.stats);
       },
@@ -90,9 +92,8 @@ addWorkout() {
     // AuthService.logout() already navigates to /login!
   }
 
-   viewAllWorkouts() {
-    console.log('View all workouts clicked - coming soon!');
-    // TODO: Navigate to workouts list page
-  }
+  viewAllWorkouts() {
+  this.router.navigate(['/workouts']);
+}
 
 }

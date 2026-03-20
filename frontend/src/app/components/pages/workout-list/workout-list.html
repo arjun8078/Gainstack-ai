@@ -1,0 +1,79 @@
+<app-navbar></app-navbar>
+<div class="workout-list-container">
+  <div class="header">
+    <h1>My Workouts 💪</h1>
+    <button mat-raised-button color="primary" (click)="addNewWorkout()">
+      <mat-icon>add</mat-icon>
+      Add Workout
+    </button>
+  </div>
+
+  @if (isLoading()) {
+    <div class="loading">
+      <mat-spinner></mat-spinner>
+      <p>Loading workouts...</p>
+    </div>
+  } @else if (workouts().length === 0) {
+    <mat-card class="empty-state">
+      <mat-icon>fitness_center</mat-icon>
+      <h2>No workouts yet</h2>
+      <p>Start tracking your fitness journey!</p>
+      <button mat-raised-button color="primary" (click)="addNewWorkout()">
+        <mat-icon>add</mat-icon>
+        Create Your First Workout
+      </button>
+    </mat-card>
+  } @else {
+    <div class="workouts-grid">
+      @for (workout of workouts(); track workout._id) {
+        <mat-card class="workout-card">
+          <mat-card-header>
+            <mat-card-title>{{ formatDate(workout.date) }}</mat-card-title>
+            <mat-card-subtitle>
+              {{ workout.exercises.length }} exercise{{ workout.exercises.length !== 1 ? 's' : '' }}
+            </mat-card-subtitle>
+          </mat-card-header>
+
+          <mat-card-content>
+            <!-- Exercise Names -->
+            <div class="exercise-list">
+              <mat-icon>fitness_center</mat-icon>
+              <span>{{ getExerciseNames(workout) }}</span>
+            </div>
+
+            <!-- Stats -->
+            <div class="stats">
+              <div class="stat">
+                <mat-icon>straighten</mat-icon>
+                <span>{{ workout.totalVolume || 0 }} kg</span>
+              </div>
+              <div class="stat">
+                <mat-icon>schedule</mat-icon>
+                <span>{{ getDurationMinutes(workout.totalDuration) }} min</span>
+              </div>
+            </div>
+
+            <!-- Notes -->
+            @if (workout.notes) {
+              <div class="notes">
+                <mat-icon>notes</mat-icon>
+                <span>{{ workout.notes }}</span>
+              </div>
+            }
+          </mat-card-content>
+
+          <mat-card-actions>
+            <button mat-button color="primary" (click)="editWorkout(workout)">
+              <mat-icon>edit</mat-icon>
+              Edit
+            </button>
+            <button mat-button color="warn" (click)="deleteWorkout(workout)">
+              <mat-icon>delete</mat-icon>
+              Delete
+            </button>
+          </mat-card-actions>
+        </mat-card>
+      }
+    </div>
+  }
+</div>

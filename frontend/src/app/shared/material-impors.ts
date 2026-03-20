@@ -47,5 +47,12 @@ export const SHARED_IMPORTS = [
   MatSelectModule,
   MatDatepickerModule,
   MatNativeDateModule,
-  RouterModule
+  RouterModule,
+   MatToolbarModule,
+  MatMenuModule,
+  MatDialogModule,
+  MatDividerModule,MatDialogModule,      // ← Add
+  MatToolbarModule,     // ← Add
+  MatMenuModule,        // ← Add
+  MatDividerModule
 ];

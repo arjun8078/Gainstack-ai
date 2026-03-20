@@ -4,10 +4,11 @@ import { Workouts } from '../../../auth/services/workouts';
 import { Router } from '@angular/router';
 import { MatCard, MatCardHeader } from "@angular/material/card";
 import { SHARED_IMPORTS } from '../../../shared/material-impors';
+import { Navbar } from '../../../shared/navbar/navbar';
 
 @Component({
   selector: 'app-add-workout',
-  imports: [MatCard, MatCardHeader,SHARED_IMPORTS],
+  imports: [MatCard, MatCardHeader,SHARED_IMPORTS,Navbar],
   templateUrl: './add-workout.html',
   styleUrl: './add-workout.scss',
 })
