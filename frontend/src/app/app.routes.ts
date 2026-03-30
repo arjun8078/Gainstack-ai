@@ -31,5 +31,9 @@ export const routes: Routes = [
     component: AddWorkout,
      canActivate: [authGuard]
   },
+  { path: 'add-workout/:id',
+    component: AddWorkout,
+     canActivate: [authGuard]
+  },
   { path: 'workouts', component: WorkoutList, canActivate: [authGuard] },
 ];

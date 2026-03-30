@@ -118,4 +118,14 @@ deleteWorkout(id: string): Observable<{ status: string; message: string }> {
   return this.http.delete<{ status: string; message: string }>(`${this.API_URL}/${id}`);
 }
 
+getWorkout(id: string): Observable<WorkoutResponse> {
+  console.log('📡 Fetching workout:', id);
+  return this.http.get<WorkoutResponse>(`${this.API_URL}/${id}`);
+}
+
+updateWorkout(id: string, workout: any): Observable<WorkoutResponse> {
+  console.log('📡 Updating workout:', id, workout);
+  return this.http.put<WorkoutResponse>(`${this.API_URL}/${id}`, workout);
+}
+
 }
