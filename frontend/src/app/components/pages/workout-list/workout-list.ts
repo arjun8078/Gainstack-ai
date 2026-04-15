@@ -7,7 +7,7 @@ import { DialogService } from '../../../services/shared/dialog.services';
 
 @Component({
   selector: 'app-workout-list',
-  imports: [SHARED_IMPORTS,Navbar],
+  imports: [SHARED_IMPORTS],
   templateUrl: './workout-list.html',
   styleUrl: './workout-list.scss',
 })

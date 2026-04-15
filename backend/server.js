@@ -31,6 +31,7 @@ app.get('/api', (req, res) => {
 
 app.use('/api/auth',require('./src/routes/auth'));
 app.use('/api/workouts',require('./src/routes/workoutRoutes'))
+app.use('/api/ai',require('./src/routes/aiRoutes'))
 
 
 app.listen(5000,()=>{

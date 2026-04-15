@@ -6,34 +6,27 @@ import { Register } from './components/login/register/register/register';
 import { Dashboard } from './components/dashboard/dashboard/dashboard';
 import { AddWorkout } from './components/pages/add-workout/add-workout';
 import { WorkoutList } from './components/pages/workout-list/workout-list';
+import { AiChat } from './components/pages/ai-chat/ai-chat';
+import { DashboardLayout } from './components/pages/dashboard-layout/dashboard-layout';
 
 export const routes: Routes = [
-   // Redirect root to login
+  { path: '', redirectTo: 'login', pathMatch: 'full' },
+
+  { path: 'login', component: Login, canActivate: [guestGuard] },
+  { path: 'register', component: Register, canActivate: [guestGuard] },
+
   {
     path: '',
-    redirectTo: '/login',
-    pathMatch: 'full'
+    component: DashboardLayout,
+    canActivate: [authGuard],
+    children: [
+      { path: 'dashboard', component: Dashboard },
+      { path: 'workouts', component: WorkoutList },
+      { path: 'add-workout', component: AddWorkout },
+      { path: 'add-workout/:id', component: AddWorkout },
+      { path: 'ai-chat', component: AiChat },
+    ]
   },
 
-  // Login route
-  {
-    path: 'login',
-    component: Login,
-     canActivate: [guestGuard]
-  },
-  { path: 'register', component: Register, canActivate: [guestGuard] },
-    {
-    path: 'dashboard',
-    component: Dashboard,
-    canActivate: [authGuard]   // ← Only for logged in users
-  },
-  { path: 'add-workout',
-    component: AddWorkout,
-     canActivate: [authGuard]
-  },
-  { path: 'add-workout/:id',
-    component: AddWorkout,
-     canActivate: [authGuard]
-  },
-  { path: 'workouts', component: WorkoutList, canActivate: [authGuard] },
+  { path: '**', redirectTo: 'login' }
 ];
