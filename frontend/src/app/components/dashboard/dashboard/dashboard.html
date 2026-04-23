@@ -1,7 +1,7 @@
 
 
 <!-- Main Content (with left margin for sidebar) -->
-<div class="ml-20 min-h-screen bg-gradient-to-br from-indigo-900 via-purple-900 to-pink-900 p-6">
+<div class="ml-20 min-h-screen bg-gradient-to-br from-gray-900 via-gray-900 to-gray-900 p-6">
 
   <!-- Top Bar -->
   <div class="flex justify-between items-center mb-8">
@@ -44,7 +44,7 @@
       <div class="col-span-12 lg:col-span-8 space-y-6">
 
         <!-- Hero Card with Image -->
-        <div class="relative bg-gradient-to-r from-purple-600/80 to-pink-600/80 backdrop-blur-sm rounded-3xl p-8 overflow-hidden">
+        <div class="relative bg-gradient-to-r from-teal-700/90 to-teal-800/90 backdrop-blur-sm rounded-3xl p-8 overflow-hidden">
           <!-- Background Pattern -->
           <div class="absolute inset-0 opacity-10">
             <div class="absolute inset-0" style="background-image: url('data:image/svg+xml,%3Csvg width=&quot;60&quot; height=&quot;60&quot; viewBox=&quot;0 0 60 60&quot; xmlns=&quot;http://www.w3.org/2000/svg&quot;%3E%3Cg fill=&quot;none&quot; fill-rule=&quot;evenodd&quot;%3E%3Cg fill=&quot;%23ffffff&quot; fill-opacity=&quot;1&quot;%3E%3Cpath d=&quot;M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z&quot;/%3E%3C/g%3E%3C/g%3E%3C/svg%3E');"></div>
@@ -58,7 +58,7 @@
               </h2>
               <button
                 (click)="addWorkout()"
-                class="bg-white text-purple-600 px-6 py-3 rounded-xl font-semibold hover:shadow-lg transition-all">
+                class="bg-white text-teal-600 px-6 py-3 rounded-xl font-semibold hover:shadow-lg transition-all">
                 Start Now
               </button>
             </div>
@@ -141,7 +141,7 @@
             <p class="text-white/80 mb-4">No workouts yet</p>
             <button
               (click)="addWorkout()"
-              class="bg-gradient-to-r from-purple-500 to-pink-500 text-white px-6 py-3 rounded-xl font-semibold hover:shadow-lg transition-all">
+              class="bg-gradient-to-r from-teal-500 to-emerald-500 text-white px-6 py-3 rounded-xl font-semibold hover:shadow-lg transition-all">
               Create Your First Workout
             </button>
           </div>
@@ -161,11 +161,11 @@
 
           <!-- Simple Line Chart Placeholder -->
           <div class="h-32 flex items-end gap-2">
-            <div class="flex-1 bg-gradient-to-t from-purple-500/50 to-purple-500/20 rounded-t-lg" style="height: 40%"></div>
-            <div class="flex-1 bg-gradient-to-t from-purple-500/50 to-purple-500/20 rounded-t-lg" style="height: 60%"></div>
-            <div class="flex-1 bg-gradient-to-t from-purple-500/50 to-purple-500/20 rounded-t-lg" style="height: 80%"></div>
-            <div class="flex-1 bg-gradient-to-t from-purple-500/50 to-purple-500/20 rounded-t-lg" style="height: 100%"></div>
-            <div class="flex-1 bg-gradient-to-t from-purple-500/50 to-purple-500/20 rounded-t-lg" style="height: 90%"></div>
+            <div class="flex-1 bg-gradient-to-t from-teal-500/50 to-teal-500/20 rounded-t-lg" style="height: 40%"></div>
+            <div class="flex-1 bg-gradient-to-t from-teal-500/50 to-teal-500/20 rounded-t-lg" style="height: 60%"></div>
+            <div class="flex-1 bg-gradient-to-t from-teal-500/50 to-teal-500/20 rounded-t-lg" style="height: 80%"></div>
+            <div class="flex-1 bg-gradient-to-t from-teal-500/50 to-teal-500/20 rounded-t-lg" style="height: 100%"></div>
+            <div class="flex-1 bg-gradient-to-t from-teal-500/50 to-teal-500/20 rounded-t-lg" style="height: 90%"></div>
           </div>
 
           <div class="flex justify-between mt-4 text-xs text-white/60">
@@ -192,7 +192,7 @@
         </div>
 
         <!-- Latest Sales / Quick Actions -->
-        <div class="bg-gradient-to-br from-pink-600/80 to-purple-600/80 backdrop-blur-sm rounded-2xl p-6">
+        <div class="bg-gradient-to-br from-teal-700/90 to-emerald-700/90 backdrop-blur-sm rounded-2xl p-6">
           <div class="flex items-center justify-between mb-4">
             <div>
               <p class="text-pink-200 text-sm mb-1">Quick Actions</p>
@@ -213,13 +213,13 @@
 
           <button
             (click)="addWorkout()"
-            class="w-full bg-white text-purple-600 py-3 rounded-xl font-semibold hover:shadow-lg transition-all">
+            class="w-full bg-white text-teal-600 py-3 rounded-xl font-semibold hover:shadow-lg transition-all">
             Begin Session
           </button>
         </div>
 
         <!-- AI Coach Card -->
-        <div class="bg-gradient-to-br from-blue-600/80 to-cyan-600/80 backdrop-blur-sm rounded-2xl p-6">
+        <div class="bg-gradient-to-br from-teal-600/80 to-cyan-700/80 backdrop-blur-sm rounded-2xl p-6">
           <div class="flex items-center gap-3 mb-4">
             <div class="w-12 h-12 bg-white/20 rounded-xl flex items-center justify-center">
               <span class="text-2xl">🤖</span>
@@ -232,7 +232,7 @@
 
           <button
             (click)="openAIChat()"
-            class="w-full bg-white text-blue-600 py-3 rounded-xl font-semibold hover:shadow-lg transition-all">
+            class="w-full bg-white text-teal-600 py-3 rounded-xl font-semibold hover:shadow-lg transition-all">
             Ask AI Coach
           </button>
         </div>

@@ -13,8 +13,9 @@ import { DialogService } from '../../../services/shared/dialog.services';
 })
 export class WorkoutList implements OnInit {
 
-  workouts = signal<Workout[]>([]);
-  isLoading = signal<boolean>(false);
+workouts = signal<any[]>([]);
+  isLoading = signal<boolean>(true);
+  activeMenuId = signal<string | null>(null);
 
 
   constructor(private workoutService: Workouts,private router: Router, private dialogService: DialogService ) {
@@ -24,21 +25,35 @@ export class WorkoutList implements OnInit {
   ngOnInit(){
     this.loadWorkouts();
   }
-
   loadWorkouts() {
     this.isLoading.set(true);
-
     this.workoutService.getWorkouts().subscribe({
       next: (response) => {
-        console.log('✅ Workouts loaded:', response);
         this.workouts.set(response.data.workouts);
+        console.log('this.workouts: ', this.workouts());
         this.isLoading.set(false);
       },
       error: (error) => {
-        console.error('❌ Failed to load workouts:', error);
+        console.error('Failed to load workouts:', error);
         this.isLoading.set(false);
       }
     });
+  }
+  calculateTotalSets(workout: any): number {
+    if (!workout.exercises) return 0;
+    return workout.exercises.reduce((total: number, exercise: any) => {
+      return total + (exercise.sets?.length || 0);
+    }, 0);
+  }
+
+  toggleMenu(workoutId: string) {
+    this.activeMenuId.set(
+      this.activeMenuId() === workoutId ? null : workoutId
+    );
+  }
+
+   viewDetails(workoutId: string) {
+    this.router.navigate(['/edit-workout', workoutId]);
   }
 
    deleteWorkout(workout: Workout) {

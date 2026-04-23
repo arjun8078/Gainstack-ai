@@ -1,79 +1,150 @@
+<div class="ml-20 min-h-screen bg-gray-950 p-8">
 
-<div class="workout-list-container">
-  <div class="header">
-    <h1>My Workouts 💪</h1>
-    <button mat-raised-button color="primary" (click)="addNewWorkout()">
-      <mat-icon>add</mat-icon>
-      Add Workout
-    </button>
+  <!-- Header -->
+  <div class="max-w-7xl mx-auto mb-8">
+    <div class="flex items-center justify-between mb-4">
+      <div>
+        <h1 class="text-4xl font-bold text-white mb-2">Your Workouts 🏋️</h1>
+        <p class="text-gray-400">Track your fitness journey</p>
+      </div>
+
+      <!-- Add Workout Button -->
+      <button
+        (click)="addNewWorkout()"
+        class="bg-gradient-to-r from-teal-500 to-emerald-500 text-white px-6 py-3 rounded-xl font-semibold hover:shadow-lg hover:scale-105 transition-all flex items-center gap-2">
+        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/>
+        </svg>
+        Add Workout
+      </button>
+    </div>
   </div>
 
-  @if (isLoading()) {
-    <div class="loading">
-      <mat-spinner></mat-spinner>
-      <p>Loading workouts...</p>
-    </div>
-  } @else if (workouts().length === 0) {
-    <mat-card class="empty-state">
-      <mat-icon>fitness_center</mat-icon>
-      <h2>No workouts yet</h2>
-      <p>Start tracking your fitness journey!</p>
-      <button mat-raised-button color="primary" (click)="addNewWorkout()">
-        <mat-icon>add</mat-icon>
-        Create Your First Workout
-      </button>
-    </mat-card>
-  } @else {
-    <div class="workouts-grid">
-      @for (workout of workouts(); track workout._id) {
-        <mat-card class="workout-card">
-          <mat-card-header>
-            <mat-card-title>{{ formatDate(workout.date) }}</mat-card-title>
-            <mat-card-subtitle>
-              {{ workout.exercises.length }} exercise{{ workout.exercises.length !== 1 ? 's' : '' }}
-            </mat-card-subtitle>
-          </mat-card-header>
+  <!-- Main Container -->
+  <div class="max-w-7xl mx-auto">
 
-          <mat-card-content>
-            <!-- Exercise Names -->
-            <div class="exercise-list">
-              <mat-icon>fitness_center</mat-icon>
-              <span>{{ getExerciseNames(workout) }}</span>
+    @if (isLoading()) {
+      <!-- Loading State -->
+      <div class="flex items-center justify-center h-96">
+        <div class="flex flex-col items-center gap-4">
+          <div class="w-16 h-16 border-4 border-teal-500/30 border-t-teal-500 rounded-full animate-spin"></div>
+          <p class="text-gray-400">Loading your workouts...</p>
+        </div>
+      </div>
+
+    } @else if (workouts().length === 0) {
+      <!-- Empty State -->
+      <div class="bg-gray-900 rounded-2xl p-12 border border-gray-800 text-center">
+        <div class="w-24 h-24 bg-teal-500/10 rounded-full flex items-center justify-center mx-auto mb-6">
+          <svg class="w-12 h-12 text-teal-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/>
+          </svg>
+        </div>
+        <h3 class="text-2xl font-bold text-white mb-3">No workouts yet</h3>
+        <p class="text-gray-400 mb-6">Start your fitness journey by logging your first workout</p>
+        <button
+          (click)="addNewWorkout()"
+          class="bg-gradient-to-r from-teal-500 to-emerald-500 text-white px-8 py-3 rounded-xl font-semibold hover:shadow-lg transition-all">
+          Create First Workout
+        </button>
+      </div>
+
+    } @else {
+
+      <!-- Workouts Grid -->
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+
+        @for (workout of workouts(); track workout._id) {
+          <div class="bg-gray-900 rounded-2xl p-6 border border-gray-800 hover:border-teal-500/50 transition-all group cursor-pointer">
+
+            <!-- Card Header -->
+            <div class="flex items-start justify-between mb-4">
+              <div>
+                <p class="text-gray-400 text-sm mb-1">
+                  {{ workout.date | date: 'EEEE, MMM d, yyyy' }}
+                </p>
+                <h3 class="text-xl font-bold text-white">
+                  {{ workout.exercises?.length || 0 }} Exercises
+                </h3>
+              </div>
+
+              <!-- Menu Button -->
+              <div class="relative">
+                <button
+                  (click)="toggleMenu(workout._id); $event.stopPropagation()"
+                  class="p-2 text-gray-400 hover:text-white hover:bg-gray-800 rounded-lg transition-colors">
+                  <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 5v.01M12 12v.01M12 19v.01M12 6a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2z"/>
+                  </svg>
+                </button>
+
+                <!-- Dropdown Menu -->
+                @if (activeMenuId() === workout._id) {
+                  <div class="absolute right-0 mt-2 w-48 bg-gray-800 rounded-lg shadow-xl border border-gray-700 z-10">
+                    <button
+                      (click)="editWorkout(workout); $event.stopPropagation()"
+                      class="w-full px-4 py-3 text-left text-white hover:bg-gray-700 flex items-center gap-3 rounded-t-lg">
+                      <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"/>
+                      </svg>
+                      Edit
+                    </button>
+                    <button
+                      (click)="deleteWorkout(workout); $event.stopPropagation()"
+                      class="w-full px-4 py-3 text-left text-red-400 hover:bg-gray-700 flex items-center gap-3 rounded-b-lg">
+                      <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/>
+                      </svg>
+                      Delete
+                    </button>
+                  </div>
+                }
+              </div>
             </div>
 
-            <!-- Stats -->
-            <div class="stats">
-              <div class="stat">
-                <mat-icon>straighten</mat-icon>
-                <span>{{ workout.totalVolume || 0 }} kg</span>
+            <!-- Stats Grid -->
+            <div class="grid grid-cols-2 gap-4 mb-4">
+              <div class="bg-gray-800/50 rounded-lg p-3">
+                <p class="text-gray-400 text-xs mb-1">Total Sets</p>
+                <p class="text-white font-bold text-lg">{{ calculateTotalSets(workout) }}</p>
               </div>
-              <div class="stat">
-                <mat-icon>schedule</mat-icon>
-                <span>{{ getDurationMinutes(workout.totalDuration) }} min</span>
+              <div class="bg-gray-800/50 rounded-lg p-3">
+                <p class="text-gray-400 text-xs mb-1">Volume</p>
+                <p class="text-white font-bold text-lg">{{ workout.totalVolume || 0 }} kg</p>
               </div>
             </div>
 
-            <!-- Notes -->
-            @if (workout.notes) {
-              <div class="notes">
-                <mat-icon>notes</mat-icon>
-                <span>{{ workout.notes }}</span>
-              </div>
-            }
-          </mat-card-content>
+            <!-- Exercise List -->
+            <div class="space-y-2">
+              <p class="text-gray-400 text-sm font-medium mb-2">Exercises:</p>
+              @for (exercise of workout.exercises?.slice(0, 3); track $index) {
+                <div class="flex items-center justify-between text-sm">
+                  <span class="text-gray-300">{{ exercise.name }}</span>
+                  <span class="text-teal-400">{{ exercise.sets?.length || 0 }} sets</span>
+                </div>
+              }
+              @if (workout.exercises && workout.exercises.length > 3) {
+                <p class="text-gray-500 text-xs">+{{ workout.exercises.length - 3 }} more...</p>
+              }
+            </div>
 
-          <mat-card-actions>
-            <button mat-button color="primary" (click)="editWorkout(workout)">
-              <mat-icon>edit</mat-icon>
-              Edit
+            <!-- View Details Button -->
+            <button
+              (click)="viewDetails(workout._id)"
+              class="mt-4 w-full py-2 bg-teal-500/10 text-teal-400 rounded-lg font-medium hover:bg-teal-500/20 transition-colors flex items-center justify-center gap-2 group-hover:bg-teal-500/20">
+              View Details
+              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
+              </svg>
             </button>
-            <button mat-button color="warn" (click)="deleteWorkout(workout)">
-              <mat-icon>delete</mat-icon>
-              Delete
-            </button>
-          </mat-card-actions>
-        </mat-card>
-      }
-    </div>
-  }
+
+          </div>
+        }
+
+      </div>
+
+    }
+
+  </div>
+
 </div>
