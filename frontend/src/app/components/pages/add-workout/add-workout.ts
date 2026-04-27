@@ -8,7 +8,7 @@ import { Navbar } from '../../../shared/navbar/navbar';
 
 @Component({
   selector: 'app-add-workout',
-  imports: [MatCard, MatCardHeader,SHARED_IMPORTS],
+  imports: [SHARED_IMPORTS],
   templateUrl: './add-workout.html',
   styleUrl: './add-workout.scss',
 })
