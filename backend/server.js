@@ -7,7 +7,16 @@ const app=express();
 
 connectDB();
 
-app.use(cors());
+const corsOptions = {
+  origin: [
+    'http://localhost:4200',
+    'http://gainstack-frontend.s3-website-us-east-1.amazonaws.com',  // Your S3 URL
+  ],
+  credentials: true,
+  optionsSuccessStatus: 200
+};
+
+app.use(cors(corsOptions));
 
 
 app.use(express.json());

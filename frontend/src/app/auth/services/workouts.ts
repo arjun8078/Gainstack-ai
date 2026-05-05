@@ -1,6 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable, signal } from '@angular/core';
 import { Observable } from 'rxjs';
+import { environment } from '../../../environment/environment';
 
 
 export interface WorkoutSet {
@@ -73,7 +74,7 @@ export interface WorkoutsListResponse {
 
 export class Workouts {
 
-  private readonly API_URL = 'http://localhost:5000/api/workouts';
+  private readonly API_URL = environment.apiUrl;
 
 
 
@@ -90,7 +91,7 @@ export class Workouts {
   }): Observable<WorkoutsListResponse> {
     console.log('📡 Fetching workouts with params:', params);
 
-    let url = this.API_URL;
+    let url = this.API_URL + '/workouts';
 
     // Add query parameters if provided
     if (params) {
