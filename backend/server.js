@@ -11,6 +11,7 @@ const corsOptions = {
   origin: [
     'http://localhost:4200',
     'http://gainstack-frontend.s3-website-us-east-1.amazonaws.com',  // Your S3 URL
+    'https://dmtmj3flxt5g7.cloudfront.net'  // Your CloudFront URL
   ],
   credentials: true,
   optionsSuccessStatus: 200

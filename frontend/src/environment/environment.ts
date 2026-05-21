@@ -11,3 +11,5 @@ export const environment = {
 
 
 // http://gainstack-frontend.s3-website.eu-north-1.amazonaws.com/login
+// dmtmj3flxt5g7.cloudfront.net
+// arn:aws:cloudfront::268140506739:distribution/EQAXVTU9REHKJ
