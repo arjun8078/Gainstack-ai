@@ -1,4 +1,5 @@
 const aiService = require('../../services/aiServices');
+const redisService = require('../../services/redisService');
 
 exports.askAI=async (req,res)=>{
     try {
@@ -13,11 +14,30 @@ exports.askAI=async (req,res)=>{
             })
         }
 
+        const cacheKey=`ai_response:${req.user._id}:${question.toLowerCase().trim()}`;
+        const cachedResponse=await redisService.get(cacheKey);
+
+        if (cachedResponse) {
+           console.log('Cache hit for key:', cacheKey);
+            return res.status(200).json({
+                status: 'success',
+                data: cachedResponse,
+                fromCache: true
+            });
+        }
+        console.log('❌ Cache MISS - calling Gemini API');
+       
+          
         const result=await aiService.getFitnessAdice(req.user._id,question)
+        await redisService.set(cacheKey, result, 3600);
+        console.log('AI response is saved to cache');
          res.status(200).json({
             status: 'success',
-            data: result
+            data: result,
+            fromCache: false
     });
+        
+
 
     } catch (error) {
         console.error('AI controller error:', error);

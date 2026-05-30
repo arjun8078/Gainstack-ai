@@ -1,4 +1,5 @@
 const Workout=require('../models/Workout')
+const redisService=require('../../services/redisService')
 
 exports.createWorkout=async(req,res)=>{
 
@@ -20,6 +21,8 @@ exports.createWorkout=async(req,res)=>{
       totalDuration: totalDuration || 0,
       notes
     })
+    await redisService.delete(`workouts:${req.user._id}`);
+    console.log('Cleared workouts cache for user:', req.user._id);
     res.status(201).json({
       status: 'success',
       data: {
@@ -62,33 +65,26 @@ exports.getWorkouts = async (req, res) => {
       if (endDate) query.date.$lte = new Date(endDate);         //$lte = Less Than or Equal (<=)
     }
 
-    // Pagination
-    // Page 1:
-// skip = (1 - 1) * 10 = 0
-// Skip 0 workouts, start from beginning
-// Show workouts 1-10
-
-// Page 2:
-//skip = (2 - 1) * 10 = 10
-// Skip first 10 workouts
-// Show workouts 11-20
+   
     const skip = (page - 1) * limit;  
 
-    // Execute query
-   // Workout.find(query)
-// Find all workouts matching the query
-
-//.sort({ date: -1 })
-// Sort by date in descending order (newest first)
-// -1 = descending (Z→A, 9→1, newest→oldest)
-//  1 = ascending (A→Z, 1→9, oldest→newest)
-
-//.limit(parseInt(limit))
-// Only return this many results
-// parseInt() converts "10" (string) to 10 (number)
-
-//.skip(skip)
-// Skip this many results (for pagination)
+    const cacheKey = `workouts:${req.user._id}`;
+    const cachedWorkouts = await redisService.get(cacheKey);
+if (cachedWorkouts) {
+  console.log('✅ Cache HIT - returning cached workouts');
+      return res.status(200).json({
+        status: 'success',
+        results: cachedWorkouts.length,
+        total: cachedWorkouts.length,  
+        page: parseInt(page),          
+        pages: Math.ceil(cachedWorkouts.length / limit),  
+        data: { workouts: cachedWorkouts },
+        fromCache: true
+      });
+}
+      
+  console.log('❌ Cache MISS - fetching from MongoDB');
+   
     const workouts = await Workout.find(query)
       .sort({ date: -1 })  // Newest first
       .limit(parseInt(limit))
@@ -96,6 +92,9 @@ exports.getWorkouts = async (req, res) => {
 
     // Get total count for pagination
     const total = await Workout.countDocuments(query);
+    await redisService.set(cacheKey, workouts, 300);
+    console.log('💾 Cached workouts for 5 minutes');
+
 
     res.status(200).json({
       status: 'success',
@@ -191,6 +190,8 @@ exports.updateWorkout = async (req, res) => {
 
     // Save (triggers pre-save hook to recalculate totalVolume)
     await workout.save();
+    await redisService.delete(`workouts:${req.user._id}`);
+    console.log('Cleared workouts cache for user:', req.user._id);
 
     res.status(200).json({
       status: 'success',
@@ -235,6 +236,8 @@ exports.deleteWorkout = async (req, res) => {
     }
 
     await workout.deleteOne();
+    await redisService.delete(`workouts:${req.user._id}`);
+    console.log('Cleared workouts cache for user:', req.user._id);
 
     res.status(200).json({
       status: 'success',
