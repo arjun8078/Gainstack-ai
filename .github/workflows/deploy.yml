@@ -51,13 +51,15 @@ jobs:
         host: ${{ secrets.EC2_HOST }}
         username: ubuntu
         key: ${{ secrets.EC2_KEY }}
+        command_timeout: 5m
         script: |
           cd ~/gainstack-ai
           git pull origin main
           cd backend
           npm install
           pm2 restart Gainstack-backend
-          pm2 logs Gainstack-backend --lines 5
+          sleep 2
+          pm2 status
     
     - name: Deployment Successful
       run: echo "✅ Full CI/CD deployment completed successfully!"
