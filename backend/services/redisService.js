@@ -6,29 +6,27 @@ class RedisService{
         this.isConnected=false;
     }
 
-    async connect(){
-        try{
-            this.client=redis.createClient({
-                host:'localhost',
-                port:6379
-            })
-            this.client.on('error',(err)=>{
-                console.error('Redis Client Error',err);
-                this.isConnected=false;
-            })
-            this.client.on('connect',()=>{
-                console.log('Connected to Redis');
-                this.isConnected=true;
-            })
-            await this.client.connect()
+   async connect(){
+    try{
+        this.client=redis.createClient({
+            url: process.env.REDIS_URL || 'redis://localhost:6379'
+        })
+        this.client.on('error',(err)=>{
+            console.error('Redis Client Error',err);
+            this.isConnected=false;
+        })
+        this.client.on('connect',()=>{
+            console.log('Connected to Redis');
+            this.isConnected=true;
+        })
+        await this.client.connect()
 
-        }
-        catch(err){
-             console.error('❌ Redis connection failed:', err);
-             this.isConnected = false;
-        }
     }
-
+    catch(err){
+         console.error('❌ Redis connection failed:', err);
+         this.isConnected = false;
+    }
+}
     async get(key){
         try{
             if(!this.isConnected) return null
