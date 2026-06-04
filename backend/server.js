@@ -11,7 +11,11 @@ async function startServer() {
   try {
    
     await connectDB();
-    await redisService.connect();
+    redisService.connect().then(() => {
+      console.log('✅ Redis connected');
+    }).catch((err) => {
+      console.warn('⚠️ Redis failed, continuing without cache:', err.message);
+    });
 
     const corsOptions = {
       origin: [
