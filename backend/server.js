@@ -43,8 +43,8 @@ async function startServer() {
     app.use('/api/workouts', require('./src/routes/workoutRoutes'))
     app.use('/api/ai', require('./src/routes/aiRoutes'))
 
-    app.listen(5000, () => {
-      console.log("✅ Server running on port 5000");
+    app.listen(process.env.PORT || 5000, () => {
+      console.log("✅ Server running on port " + (process.env.PORT || 5000));
       console.log("✅ MongoDB connected");
       console.log("✅ Redis connected");
     });
