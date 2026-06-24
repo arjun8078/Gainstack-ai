@@ -1,1 +1,5 @@
+<app-toast></app-toast>
+@if(authService.isLoggedIn() && !isOnChatPage()){
+  <app-chatbot-icon></app-chatbot-icon>
+}
 <router-outlet></router-outlet>

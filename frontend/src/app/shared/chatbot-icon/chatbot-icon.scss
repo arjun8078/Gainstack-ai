@@ -1,0 +1,35 @@
+@keyframes wave {
+  0%   { transform: rotate(0deg); }
+  25%  { transform: rotate(-10deg); }
+  75%  { transform: rotate(8deg); }
+  100% { transform: rotate(0deg); }
+}
+
+@keyframes float {
+  0%, 100% { transform: translateY(0px); }
+  50%       { transform: translateY(-6px); }
+}
+
+@keyframes blink {
+  0%, 90%, 100% { transform: scaleY(1); }
+  95%            { transform: scaleY(0.1); }
+}
+
+.wave {
+  transform-origin: 38px 103px;
+  animation: wave 1.2s ease-in-out infinite;
+}
+
+svg {
+  animation: float 3s ease-in-out infinite;
+}
+
+.left-eye {
+  transform-origin: 67px 58px;
+  animation: blink 4s ease-in-out infinite;
+}
+
+.right-eye {
+  transform-origin: 93px 58px;
+  animation: blink 4s ease-in-out infinite 0.1s;
+}

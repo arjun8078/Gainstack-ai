@@ -1,0 +1,77 @@
+<div class="fixed bottom-4 right-4 z-50 flex flex-col items-end">
+
+  @if (isOpen()) {
+    <div class="bg-white rounded-xl shadow-2xl mb-4 w-80 h-96 flex flex-col overflow-hidden">
+     <app-chatbot-modal class="flex-1 min-h-0 overflow-hidden flex flex-col" (closeModal)="closeChatbot()"></app-chatbot-modal>
+        <!-- <div class="px-3 pb-3">
+        <button
+          class="w-full text-xs text-gray-400 hover:text-gray-600 border border-gray-200 rounded py-1"
+          (click)="toggleChatbot()">
+          Close ✕
+        </button>
+      </div> -->
+    </div>
+  }
+
+  <svg width="90" height="110" viewBox="0 0 160 185"
+       xmlns="http://www.w3.org/2000/svg"
+       class="cursor-pointer"
+       (click)="toggleChatbot()">
+
+    <!-- Antenna -->
+    <line x1="80" y1="8" x2="80" y2="28" stroke="#6C63FF" stroke-width="3" stroke-linecap="round"/>
+    <circle cx="80" cy="5" r="5" fill="#6C63FF"/>
+
+    <!-- Head -->
+    <rect x="40" y="28" width="80" height="65" rx="18" fill="#6C63FF"/>
+
+    <!-- Screen face -->
+    <rect x="52" y="38" width="56" height="45" rx="10" fill="#1a1a2e"/>
+
+    <!-- Eyes -->
+    <rect class="left-eye" x="60" y="52" width="14" height="12" rx="4" fill="#00D4FF"/>
+    <rect class="right-eye" x="86" y="52" width="14" height="12" rx="4" fill="#00D4FF"/>
+
+    <!-- Smile -->
+    <path d="M 65 74 Q 80 84 95 74" stroke="#00D4FF" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+
+    <!-- Ear bumps -->
+    <circle cx="40" cy="60" r="7" fill="#5550CC"/>
+    <circle cx="120" cy="60" r="7" fill="#5550CC"/>
+
+    <!-- Body -->
+    <rect x="48" y="93" width="64" height="55" rx="14" fill="#6C63FF"/>
+
+    <!-- Chest light -->
+    <circle cx="80" cy="115" r="8" fill="#00D4FF" opacity="0.8"/>
+    <circle cx="80" cy="115" r="4" fill="#fff" opacity="0.9"/>
+
+    <!-- Belly buttons -->
+    <rect x="60" y="130" width="10" height="8" rx="3" fill="#5550CC"/>
+    <rect x="74" y="130" width="10" height="8" rx="3" fill="#5550CC"/>
+    <rect x="88" y="130" width="10" height="8" rx="3" fill="#5550CC"/>
+
+    <!-- LEFT ARM (waving) -->
+    <g class="wave">
+      <rect x="24" y="96" width="28" height="14" rx="7" fill="#6C63FF"/>
+      <circle cx="22" cy="103" r="10" fill="#5550CC"/>
+      <line x1="14" y1="97" x2="11" y2="92" stroke="#6C63FF" stroke-width="3" stroke-linecap="round"/>
+      <line x1="20" y1="94" x2="18" y2="88" stroke="#6C63FF" stroke-width="3" stroke-linecap="round"/>
+      <line x1="26" y1="94" x2="26" y2="88" stroke="#6C63FF" stroke-width="3" stroke-linecap="round"/>
+    </g>
+
+    <!-- RIGHT ARM -->
+    <rect x="108" y="96" width="28" height="14" rx="7" fill="#6C63FF"/>
+    <circle cx="138" cy="103" r="10" fill="#5550CC"/>
+
+    <!-- Legs -->
+    <rect x="57" y="147" width="20" height="22" rx="8" fill="#5550CC"/>
+    <rect x="83" y="147" width="20" height="22" rx="8" fill="#5550CC"/>
+
+    <!-- Feet -->
+    <rect x="52" y="163" width="26" height="10" rx="5" fill="#6C63FF"/>
+    <rect x="82" y="163" width="26" height="10" rx="5" fill="#6C63FF"/>
+
+  </svg>
+
+</div>

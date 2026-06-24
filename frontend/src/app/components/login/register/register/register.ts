@@ -4,6 +4,7 @@ import { getOriginalNode } from 'typescript';
 import { AuthService } from '../../../../auth/services/auth';
 import { Router } from '@angular/router';
 import { finalize } from 'rxjs';
+import { ToastService } from '../../../../services/shared/toast';
 
 @Component({
   selector: 'app-register',
@@ -22,7 +23,7 @@ export class Register {
   isLoading=signal(false);
   showPassword=signal(false);
 
-  constructor(private authService:AuthService,private router:Router){
+  constructor(private authService:AuthService,private router:Router,private toastService: ToastService){
 
   }
 
@@ -45,7 +46,10 @@ export class Register {
     ).subscribe({
         next:(response)=>{
           this.isLoading.set(false);
-          this.router.navigate(['/dashboard']);
+          this.toastService.showToast('Registered successfully!', 'success');
+          setTimeout(() => {
+            this.router.navigate(['/dashboard']);
+          }, 3000);
         },
         error:(error)=>{
           this.isLoading.set(false);

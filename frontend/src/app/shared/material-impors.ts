@@ -22,6 +22,7 @@ import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatSelectModule } from '@angular/material/select';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatNativeDateModule } from '@angular/material/core';
+import { ToastComponent } from './toast/toast';
 
 // Export as reusable array
 export const SHARED_IMPORTS = [
@@ -54,5 +55,6 @@ export const SHARED_IMPORTS = [
   MatDividerModule,MatDialogModule,      // ← Add
   MatToolbarModule,     // ← Add
   MatMenuModule,        // ← Add
-  MatDividerModule
+  MatDividerModule,
+  ToastComponent
 ];
