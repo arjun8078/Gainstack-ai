@@ -14,7 +14,7 @@ import { Router } from '@angular/router';
     'class': 'flex flex-col flex-1 min-h-0 overflow-hidden'
   }
 })
-export class ChatbotModal implements OnInit {
+export class ChatbotModal  {
 
   question=signal('')
   messageLimit=10
@@ -26,14 +26,12 @@ export class ChatbotModal implements OnInit {
 
   }
 
-  ngOnInit(): void {
 
-  }
 
   sendMessage(){
     if(!this.question().trim()) return
 
-    this.chatservice.sendMessage(this.question());
+    this.chatservice.sendMessage(this.question(),'quick');
 
     this.question.set('');
 
@@ -43,7 +41,7 @@ export class ChatbotModal implements OnInit {
     this.chatservice.resetChat();
   }
   isLimitReached() {
-    return this.chatservice.getMessageCount() >= this.messageLimit;
+    return this.chatservice.getQuickChatAiCount() >= this.messageLimit;
   }
 
   openFullChat() {
@@ -53,5 +51,9 @@ export class ChatbotModal implements OnInit {
     this.closeModal.emit();  // ← Tell parent to close!
   }
 
+  transferQuickChatToMainChat() {
+    this.chatservice.transferQuickChatToMainChat();
+    this.router.navigate(['/ai-chat']);
+  }
 
 }

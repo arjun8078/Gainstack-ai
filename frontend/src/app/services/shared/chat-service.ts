@@ -21,35 +21,60 @@ interface QuotaResetInfo {
 })
 export class ChatService {
 
-  messages=signal<Message[]>([]);
+  quickChatMessages=signal<Message[]>([]);
+  longChatMessages=signal<Message[]>([]);
+  quickChatAiCount=signal<number>(0);
   isLoading = signal<boolean>(false)
   quotaExceeded=signal<boolean>(false)
   resetInfo=signal<QuotaResetInfo | null>(null)
+  workoutsAnalyzed=signal<number>(0)
 
   constructor(private aiService:AiService){
 
   }
 
-  sendMessage(question:any){
-     this.messages.update(msgs=>[...msgs,{
+  sendMessage(question:any,chatType:'quick'|'long'){
+    if(chatType == 'quick'){
+         this.quickChatMessages.update(msgs=>[...msgs,{
       text:question,
       isUser:true,
       timestamp:new Date()
      }])
+    }
+    else{
+         this.longChatMessages.update(msgs=>[...msgs,{
+      text:question,
+      isUser:true,
+      timestamp:new Date()
+     }])
+    }
+
 
      this.isLoading.set(true);
 
      this.aiService.askQuestion(question).subscribe({
       next:Response=>{
-        this.messages.update(msgs=>[...msgs,{
+      if(chatType == 'quick'){
+         this.quickChatMessages.update(msgs=>[...msgs,{
           text:Response.data.answer,
           isUser:false,
           timestamp:new Date()
         }])
+        this.quickChatAiCount.update(count=>count+1)
+      }
+      else{
+         this.longChatMessages.update(msgs=>[...msgs,{
+          text:Response.data.answer,
+          isUser:false,
+          timestamp:new Date()
+        }])
+      }
+
 
         this.isLoading.set(false);
          // Clear any previous quota errors
       this.quotaExceeded.set(false);
+      this.workoutsAnalyzed.set(Response.data.workoutsAnalyzed);
       },
       error:(error)=>{
         console.log('Error occured',error);
@@ -59,20 +84,42 @@ export class ChatService {
         this.resetInfo.set(error.error.resetInfo);
 
         // Add error message to chat
-        this.messages.update(msgs => [...msgs, {
+        if(chatType == 'quick'){
+           this.quickChatMessages.update(msgs => [...msgs, {
           text: `AI quota exceeded. Available again in ${error.error.resetInfo.hoursUntilReset}h ${error.error.resetInfo.minutesUntilReset}m`,
           isUser: false,
           timestamp: new Date(),
           isError: true
         }]);
+        }
+        else{
+            this.longChatMessages.update(msgs => [...msgs, {
+          text: `AI quota exceeded. Available again in ${error.error.resetInfo.hoursUntilReset}h ${error.error.resetInfo.minutesUntilReset}m`,
+          isUser: false,
+          timestamp: new Date(),
+          isError: true
+        }]);
+        }
+
       } else {
         // Generic error
-        this.messages.update(msgs => [...msgs, {
+        if(chatType == 'quick'){
+           this.quickChatMessages.update(msgs => [...msgs, {
           text: 'Sorry, I encountered an error. Please try again!',
           isUser: false,
           timestamp: new Date(),
           isError: true
         }]);
+        }
+        else{
+            this.longChatMessages.update(msgs => [...msgs, {
+          text: 'Sorry, I encountered an error. Please try again!',
+          isUser: false,
+          timestamp: new Date(),
+          isError: true
+        }]);
+        }
+
       }
 
       // Stop loading
@@ -82,19 +129,30 @@ export class ChatService {
      })
   }
 
-  clearMessage(){
-    this.messages.set([]);
-  }
+ clearQuickChat(){
+  this.quickChatMessages.set([]);
+  this.quickChatAiCount.set(0);  // Reset count too!
+}
 
-  resetChat(){
-    this.clearMessage();
-    this.quotaExceeded.set(false);
-    this.resetInfo.set(null);
-    this.isLoading.set(false);
-  }
+clearMainChat(){
+  this.longChatMessages.set([]);
+}
 
-  getMessageCount(){
-    return this.messages().length;
-  }
+ resetChat(){
+  this.clearQuickChat();
+  this.quotaExceeded.set(false);
+  this.resetInfo.set(null);
+  this.isLoading.set(false);
+}
+
+  getQuickChatAiCount(){
+  return this.quickChatAiCount();
+}
+
+transferQuickChatToMainChat(){
+  const quickMessages = this.quickChatMessages();
+  this.longChatMessages.set([...quickMessages]);
+  this.clearQuickChat();
+}
 
 }

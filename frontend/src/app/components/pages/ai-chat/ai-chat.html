@@ -13,7 +13,7 @@
         <div class="flex-1 min-w-0">
           <h1 class="text-2xl font-bold text-white">AI Fitness Coach</h1>
           <p class="text-gray-400 text-sm truncate">
-            Powered by Google Gemini • {{ workoutsAnalyzed() }} workouts analyzed
+            Powered by Google Gemini • {{ chatservice.workoutsAnalyzed() }} workouts analyzed
           </p>
         </div>
       </div>
@@ -21,7 +21,7 @@
   </div>
 
   <!-- Quota Exceeded Banner -->
-  @if (quotaExceeded()) {
+  @if (chatservice.quotaExceeded()) {
     <div class="mx-8 mt-6 max-w-4xl mx-auto">
       <div class="bg-red-500/10 border border-red-500/50 rounded-xl p-6 animate-fadeIn">
         <div class="flex items-start gap-4">
@@ -34,24 +34,24 @@
               We've reached our daily limit for AI requests. The quota resets automatically every 24 hours.
             </p>
 
-            @if (resetInfo()) {
+            @if (chatservice.resetInfo()) {
               <div class="bg-gray-900 rounded-lg p-4 border border-red-500/30">
                 <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 text-sm">
                   <div>
                     <span class="text-gray-400">Resets in:</span>
                     <span class="font-bold text-red-400 ml-2">
-                      {{ resetInfo()!.hoursUntilReset }}h {{ resetInfo()!.minutesUntilReset }}m
+                      {{ chatservice.resetInfo()!.hoursUntilReset }}h {{ chatservice.resetInfo()!.minutesUntilReset }}m
                     </span>
                   </div>
                   <div>
                     <span class="text-gray-400">Local Time:</span>
                     <span class="font-bold text-white ml-2">
-                      {{ resetInfo()!.resetTimeLocal }}
+                      {{ chatservice.resetInfo()!.resetTimeLocal }}
                     </span>
                   </div>
                 </div>
                 <div class="mt-2 text-xs text-gray-500">
-                  Quota resets daily at {{ resetInfo()!.resetTimeUTC }}
+                  Quota resets daily at {{ chatservice.resetInfo()!.resetTimeUTC }}
                 </div>
               </div>
             }
@@ -72,7 +72,7 @@
     <div class="max-w-4xl mx-auto space-y-6">
 
       <!-- Welcome Screen -->
-      @if (messages().length === 0) {
+      @if (chatservice.longChatMessages().length === 0) {
         <div class="text-center py-12">
           <div class="w-20 h-20 bg-teal-500/10 rounded-full flex items-center justify-center mx-auto mb-6">
             <span class="text-4xl">👋</span>
@@ -106,7 +106,7 @@
       }
 
       <!-- Messages -->
-      @for (message of messages(); track message.timestamp) {
+      @for (message of chatservice.longChatMessages(); track message.timestamp) {
         <div class="flex animate-fadeIn" [class.justify-end]="message.isUser">
           <div class="max-w-[85%]" [class.ml-auto]="message.isUser">
 
@@ -176,7 +176,7 @@
       }
 
       <!-- Loading Message -->
-      @if (isLoading()) {
+      @if (chatservice.isLoading()) {
         <div class="flex animate-fadeIn">
           <div class="max-w-[85%]">
             <div class="flex gap-4">
@@ -214,14 +214,14 @@
           formControlName="question"
           placeholder="Ask me anything about your training..."
           (keydown.enter)="$event.preventDefault(); sendMessage()"
-          [disabled]="isLoading()"
+          [disabled]="chatservice.isLoading()"
           class="flex-1 bg-gray-800 border border-gray-700 rounded-xl px-6 py-4 text-white placeholder-gray-500 focus:outline-none focus:border-teal-500 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
         />
 
         <!-- Send Button -->
         <button
           type="submit"
-          [disabled]="isLoading() || chatForm.invalid"
+          [disabled]="chatservice.isLoading() || chatForm.invalid"
           class="bg-gradient-to-r from-teal-500 to-emerald-500 text-white px-8 py-4 rounded-xl font-semibold hover:shadow-lg hover:scale-105 transition-all disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:scale-100 flex items-center gap-2">
           <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
             <path d="M10.894 2.553a1 1 0 00-1.788 0l-7 14a1 1 0 001.169 1.409l5-1.429A1 1 0 009 15.571V11a1 1 0 112 0v4.571a1 1 0 00.725.962l5 1.428a1 1 0 001.17-1.408l-7-14z" />
